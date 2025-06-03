@@ -18,7 +18,7 @@ module.exports = {
 
     if (!channel) {
       return interaction.reply({
-        content: '❌ You must be in a voice channel!',
+        content: 'You must be in a voice channel!',
         ephemeral: true
       });
     }
@@ -26,35 +26,25 @@ module.exports = {
     await interaction.deferReply();
 
     try {
+      const existingQueue = player.nodes.get(interaction.guildId);
+      const isQueueActive = existingQueue && existingQueue.isPlaying();
+
       const { track } = await player.play(channel, query, {
         nodeOptions: {
           metadata: {
-            channel: interaction.channel
+            channel: interaction.channel,
+            requestedBy: interaction.user
           }
         }
       });
 
-      await interaction.followUp(`✅ **${track.title}** has been added to the queue!`);
+      return interaction.followUp(`**${track.title}** has been added to the queue!`);
 
-      const embed = {
-        title: `🎶 Now Playing: ${track.title}`,
-        url: track.url,
-        description: `Requested by <@${interaction.user.id}>`,
-        thumbnail: { url: track.thumbnail },
-        fields: [
-          { name: 'Duration', value: track.duration || 'Unknown', inline: true },
-          { name: 'Author', value: track.author || 'Unknown', inline: true },
-          { name: 'Source', value: track.raw?.source || 'Unknown', inline: true }
-        ],
-        color: 0x1DB954
-      };
-
-      return interaction.followUp({ embeds: [embed] });
 
     } catch (error) {
       console.error(error);
       return interaction.followUp({
-        content: `❌ Failed to play: ${error.message}`,
+        content: `Failed to play: ${error.message}`,
         ephemeral: true
       });
     }

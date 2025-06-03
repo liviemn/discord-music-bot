@@ -12,7 +12,7 @@ module.exports = {
 
     if (!queue || !queue.isPlaying()) {
       return interaction.reply({
-        content: '❌ There is no track currently playing.',
+        content: 'There is no track currently playing.',
         ephemeral: true
       });
     }
@@ -21,6 +21,6 @@ module.exports = {
 
     queue.node.skip();
 
-    return interaction.reply(`⏭️ Skipped **${currentTrack.title}**`);
+    return interaction.reply(`Skipped **${currentTrack.title}**`);
   }
 };

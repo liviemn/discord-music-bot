@@ -25,6 +25,37 @@ const player = new Player(client, {
 client.player = player;
 player.extractors.loadMulti(DefaultExtractors);
 
+client.player.events.on('playerStart', (queue, track) => {
+  const channel = queue.metadata?.channel;
+  const user = queue.metadata?.requestedBy;
+
+  if (!channel) return;
+
+  const embed = {
+    title: `🎶 Now Playing: ${track.title}`,
+    url: track.url,
+    description: `Requested by ${user ? `<@${user.id}>` : 'Unknown'}`,
+    thumbnail: { url: track.thumbnail || track.__metadata?.artwork_url || null },
+    fields: [
+      { name: 'Duration', value: track.duration || 'Unknown', inline: true },
+      { name: 'Author', value: track.author || track.__metadata?.publisher_metadata?.artist || 'Unknown', inline: true },
+      { name: 'Source', value: track.raw?.source || 'Unknown', inline: true }
+    ],
+    color: 0x1DB954
+  };
+
+  channel.send({ embeds: [embed] }).catch(console.error);
+});
+
+client.player.events.on('playerError', (queue, error) => {
+  console.error(` Player Error in [${queue.guild.name}]:`, error.message);
+  const channel = queue.metadata?.channel;
+  if (channel) {
+    channel.send(`An error occurred while playing audio:\n\`${error.message}\``).catch(() => {});
+  }
+});
+
+
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
