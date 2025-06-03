@@ -23,6 +23,7 @@
     "@discordjs/opus": "^0.10.0",
     "@discordjs/voice": "^0.18.0",
     "discord-player": "^7.1.0",
+    "discord-player-youtubei": "^1.4.6",
     "discord.js": "^14.19.3",
     "ffmpeg-static": "^5.2.0",
     "mediaplex": "^1.0.0",
