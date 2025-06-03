@@ -3,7 +3,6 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
-const playdl = require('play-dl');
 const { DefaultExtractors } = require('@discord-player/extractor');
 
 
