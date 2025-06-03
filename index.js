@@ -2,8 +2,30 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
+const { Player } = require('discord-player');
+const playdl = require('play-dl');
+const { DefaultExtractors } = require('@discord-player/extractor');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildVoiceStates,
+  ]
+});
+
+const player = new Player(client, {
+  ytdlOptions: {
+    quality: 'highestaudio',
+    highWaterMark: 1 << 25,
+  }
+});
+
+client.player = player;
+player.extractors.loadMulti(DefaultExtractors);
+
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
