@@ -23,9 +23,8 @@ module.exports = {
       });
     }
 
-    await interaction.deferReply();
-
     try {
+      await interaction.deferReply();
       const existingQueue = player.nodes.get(interaction.guildId);
       const isQueueActive = existingQueue && existingQueue.isPlaying();
 

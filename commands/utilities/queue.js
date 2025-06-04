@@ -12,7 +12,7 @@ module.exports = {
 
     if (!queue || !queue.isPlaying()) {
       return interaction.reply({
-        content: '❌ There is no music playing in this server.',
+        content: 'There is no music playing in this server.',
         ephemeral: true
       });
     }
