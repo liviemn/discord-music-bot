@@ -13,7 +13,6 @@ module.exports = {
     if (!queue || !queue.isPlaying()) {
       return interaction.reply({
         content: 'There is no track currently playing.',
-        ephemeral: true
       });
     }
 

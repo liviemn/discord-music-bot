@@ -44,7 +44,6 @@ module.exports = {
       console.error(error);
       return interaction.followUp({
         content: `Failed to play: ${error.message}`,
-        ephemeral: true
       });
     }
   }
